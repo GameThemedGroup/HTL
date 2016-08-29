@@ -1,8 +1,30 @@
 package HTLProceduralAPI;
 
 /**
+ * @author Kunlakan (Jeen) Cherdchusilp
  * @author Tom Lai
- * @author Jeen Cherdchusilp
+ * 
+ * ----------------------------------------------------------------------------
+ * LAB 7 - For Loop: Create Custom Paths
+ * 
+ * LEARNING OBJECTIVE:
+ * 		Student will be able to demonstrate an understanding of the concept by
+ * 		drawing completed custom paths by using for loops
+ * 
+ * FUNCTIONS TO USE:
+ * 		addPathUpDown(int x, int y)
+ * 		addPathLeftRight(int x, int y)
+ * 		addPathUpLeft(int x, int y)
+ * 		addPathUpRight(int x, int y)
+ * 		addPathDownLeft(int x, int y)
+ * 		addPathDownRight(int x, int y)
+ * 
+ * 		preparePathForWalkers(int startX, int startY, int endX, int endY)
+ * 
+ * 		countdownFired()
+ * 
+ * 		addBasicWalker()
+ * 		addQuickWalker()
  */
 public class Lab7 extends HTLProceduralAPI
 {
@@ -13,14 +35,14 @@ public class Lab7 extends HTLProceduralAPI
 		 *      8| 
 		 *      7| 
 		 *      6|               
-		 * rows 5| X X X X X X X X X X X
+		 *   y  5| X X X X X X X X X X X
 		 *      4|                    
 		 *      3|                
 		 *      2|                
 		 *      1|                
 		 *      0|______________________
 		 *         0 1 2 3 4 5 6 7 8 9 ...
-		 *            columns
+		 *            		x
 		 */
 		
 		/* PRE-BUILT PATH USED FOR DEMONSTRATION
@@ -49,13 +71,15 @@ public class Lab7 extends HTLProceduralAPI
 		for (int currentNum = 0; currentNum < 20; currentNum = currentNum + 1) {
 			addPathLeftRight(currentNum, 5);
 		}
-		preparePathForWalkers(0,5,19,5);
+		preparePathForWalkers(0, 5, 19, 5);
 	}
+	
 	
 	public void updateGame() {
 
 		if (countdownFired()) {
 			addBasicWalker();
+			//addQuickWalker();
 		}
 	}
 }

@@ -105,13 +105,13 @@ public class HTLProceduralAPI extends HTL {
 	/**
 	 * set the integer to count down from
 	 * 
-	 * @param countdownFrom
+	 * @param seconds
 	 *            the number to countdown from
 	 */
-	public void setCountdownFrom(double countdownFrom) {
+	public void setCountdown(double seconds) {
 		// this student-facing function uses double instead of float, so that
 		// students don't have to do a cast when they pass a literal
-		this.countdownFrom = (float) countdownFrom;
+		this.countdownFrom = (float) seconds;
 	}
 
 	/**
@@ -437,19 +437,19 @@ public class HTLProceduralAPI extends HTL {
 	 * It is necessary to call this method so that walkers can walk on a custom
 	 * path.
 	 * 
-	 * @param startColumn
+	 * @param startX
 	 *            The column of the Tile where the Path begins.
-	 * @param startRow
+	 * @param startY
 	 *            The row of the Tile where the Path begins.
-	 * @param endColumn
+	 * @param endX
 	 *            The column of the Tile where the Path ends.
-	 * @param endRow
+	 * @param endY
 	 *            The row of the Tile where the Path ends.
 	 * @return True if the Path was successfully prepared.
 	 */
-	protected boolean preparePathForWalkers(int startColumn, int startRow, int endColumn, int endRow) {
+	protected boolean preparePathForWalkers(int startX, int startY, int endX, int endY) {
 		// TODO: try to hide this function from students
-		if (grid.constructPath(startColumn, startRow, endColumn, endRow)) {
+		if (grid.constructPath(startX, startY, endX, endY)) {
 			return true;
 		} else {
 			return false;
@@ -700,18 +700,18 @@ public class HTLProceduralAPI extends HTL {
 	/**
 	 * returns true if the tower should fire; false otherwise
 	 * 
-	 * @param towerIndex
+	 * @param towerID
 	 *            index for a given tower
-	 * @param walkerIndex
+	 * @param walkerID
 	 *            index for a given walker
 	 * @return true if the tower should fire; false otherwise
 	 */
-	protected boolean walkerIsInRange(int towerIndex, int walkerIndex) {
+	protected boolean walkerIsInRange(int towerID, int walkerID) {
 
-		Walker walker = walkerSet.getArrayOfWalkers()[walkerIndex];
-		Tower tower = towerSet.getArrayOfTowers()[towerIndex];
+		Walker walker = walkerSet.getArrayOfWalkers()[walkerID];
+		Tower tower = towerSet.getArrayOfTowers()[towerID];
 
-		if (!towerSet.getArrayOfTowers()[towerIndex].cooldownIsReady()) {
+		if (!towerSet.getArrayOfTowers()[towerID].cooldownIsReady()) {
 			return false;
 		}
 		if (walker.isDead()) {
@@ -742,14 +742,14 @@ public class HTLProceduralAPI extends HTL {
 	/**
 	 * Make tower fire at the walker, walker should gain health as a result
 	 * 
-	 * @param towerIndex
+	 * @param towerID
 	 *            index for a given tower
-	 * @param walkerIndex
+	 * @param walkerID
 	 *            index for a given walker
 	 */
-	protected void medicWizardCastSpellOnWalker(int towerIndex, int walkerIndex) {
-		Tower t = towerSet.getArrayOfTowers()[towerIndex];
-		Walker w = walkerSet.getArrayOfWalkers()[walkerIndex];
+	protected void medicWizardCastSpellOnWalker(int towerID, int walkerID) {
+		Tower t = towerSet.getArrayOfTowers()[towerID];
+		Walker w = walkerSet.getArrayOfWalkers()[walkerID];
 		if (!towerSoundPlayed) {
 			t.playSoundSpellcast();
 			towerSoundPlayed = true;
@@ -761,14 +761,14 @@ public class HTLProceduralAPI extends HTL {
 	/**
 	 * Make tower fire at the walker, walker should walk faster as a result
 	 * 
-	 * @param towerIndex
+	 * @param towerID
 	 *            index for a given tower
-	 * @param walkerIndex
+	 * @param walkerID
 	 *            index for a given walker
 	 */
-	protected void speedyWizardCastSpellOnWalker(int towerIndex, int walkerIndex) {
-		Tower t = towerSet.getArrayOfTowers()[towerIndex];
-		Walker w = walkerSet.getArrayOfWalkers()[walkerIndex];
+	protected void speedyWizardCastSpellOnWalker(int towerID, int walkerID) {
+		Tower t = towerSet.getArrayOfTowers()[towerID];
+		Walker w = walkerSet.getArrayOfWalkers()[walkerID];
 		if (!towerSoundPlayed) {
 			t.playSoundSpellcast();
 			towerSoundPlayed = true;
@@ -867,6 +867,7 @@ public class HTLProceduralAPI extends HTL {
 			phaseLayerWin.setVisibilityTo(true);
 			layerScreenDarkener.setVisibilityTo(true);
 			phaseLayerGameplay.setVisibilityTo(true);
+			
 			phaseLayerTitleScreen.setVisibilityTo(false);
 			phaseLayerCredits.setVisibilityTo(false);
 			phaseLayerRestartConfirm.setVisibilityTo(false);
@@ -875,9 +876,34 @@ public class HTLProceduralAPI extends HTL {
 			phaseLayerPause.setVisibilityTo(false);
 
 			setCurrentGamePhase(GamePhase.WIN);
+
 		}
+		updatePhaseWin();
 	}
 
+	/**
+	 * Update player input for lose screen
+	 */
+	private void updatePhaseWin()
+	{
+		if(!mouse.isButtonTapped(1))
+		{
+			return;
+		}
+		
+		float mouseX = mouse.getWorldX();
+		float mouseY = mouse.getWorldY();
+		
+		if(winButtonRestart.containsPoint(mouseX, mouseY))
+		{
+			enterGameplay();
+		}
+		else if(winButtonQuit.containsPoint(mouseX, mouseY))
+		{
+			exitGame();
+		}
+	}
+	
 	/**
 	 * Set the current game phase
 	 * 
@@ -933,7 +959,7 @@ public class HTLProceduralAPI extends HTL {
 	/**
 	 * @return the clicked column # in the grid
 	 */
-	protected int getClickedColumn() {
+	protected int getClickedX() {
 		Tile clickedTile = grid.getClickedTile();
 		if (clickedTile == null) {
 			return -1;
@@ -944,7 +970,7 @@ public class HTLProceduralAPI extends HTL {
 	/**
 	 * @return the clicked row # in the grid
 	 */
-	protected int getClickedRow() {
+	protected int getClickedY() {
 		Tile clickedTile = grid.getClickedTile();
 		if (clickedTile == null) {
 			return -1;
@@ -1010,7 +1036,7 @@ public class HTLProceduralAPI extends HTL {
 		return score;
 	}
 
-	protected void setScore(float score) {
+	protected void updateScore(float score) {
 		this.score = score;
 	}
 
@@ -1033,12 +1059,12 @@ public class HTLProceduralAPI extends HTL {
 	/**
 	 * if the function is never called, we will use the default, which is 10.0
 	 * 
-	 * @param h
+	 * @param health
 	 *            the health to add to the walkers, if h is negative, we will
 	 *            subtract from the walker's health
 	 */
-	protected void setMedicWizardHealthAdjust(double h) {
-		TowerMedic.setCastHealthAdjust((float) h);
+	protected void setMedicWizardHealthAdjust(double health) {
+		TowerMedic.setCastHealthAdjust((float) health);
 	}
 
 	/**

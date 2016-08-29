@@ -1,15 +1,37 @@
 package HTLProceduralAPI;
 
 /**
+ * @author Kunlakan (Jeen) Cherdchusilp
  * @author Tom Lai
- * @author Jeen Cherdchusilp
+ * 
+ * ----------------------------------------------------------------------------
+ * LAB 11 - Gameplay: Cleanup The Game!
+ * 
+ * LEARNING OBJECTIVE:
+ * 		Student will be able to demonstrate an understanding of all concepts
+ * 		learned from the previous labs.
+ * 
+ * FUNCTIONS TO USE:
+ * 		addWalker(String type)
+ *		drawWizard(int x, int y, String type)
+ *
+ * 		setWalkerDamagePerSecond(int damage)
+ * 		setCountdown(double seconds)
+ * 		setScoreToWin(float scoreToWin)
+ * 		setSpeedyTimeBetweenSpellcasts(double duration)
+ * 		setMedicTimeBetweenSpellcasts(double duration)
+ * 		setMedicWizardHealthAdjust(double health)
+ * 		setSpeedyWizardSpeedBoostDuration(double duration)
+ *		setSpeedyWizardSpeedBoostMultipler(double multiplier)
  */
+
 public class Lab11 extends HTLProceduralAPI {
 	String defaultWizardType = "medic";
 	String defaultWalkerType = "basic";
 
 	public void buildGame() {
 		drawToolbars();
+		
 		for (int currentNum = 0; currentNum < 20; currentNum = currentNum + 1) {
 			addPathLeftRight(currentNum, 5);
 		}
@@ -18,12 +40,12 @@ public class Lab11 extends HTLProceduralAPI {
 
 		// Settings
 		setWalkerDamagePerSecond(5);
-		setCountdownFrom(1);
+		setCountdown(3);
 		setScoreToWin(1);
 		setSpeedyTimeBetweenSpellcasts(1.0);
 		setMedicTimeBetweenSpellcasts(3.0);
-		// setMedicWizardHealthAdjust(10.0);
-		setMedicWizardHealthAdjust(-10.0); // if negative, reduce health
+		//setMedicWizardHealthAdjust(10.0);
+		setMedicWizardHealthAdjust(-10.0);
 		setSpeedyWizardSpeedBoostDuration(1.0);
 		// setSpeedyWizardSpeedBoostMultipler(3.0);
 		setSpeedyWizardSpeedBoostMultipler(-3.0); // if negative, walker goes
@@ -32,62 +54,48 @@ public class Lab11 extends HTLProceduralAPI {
 
 	public void updateGame() {
 
+		if (keyboardIsPressingLeft()) {
+			defaultWizardType = "medic";
+		}
+		else if (keyboardIsPressingRight()) {
+			defaultWizardType = "speedy";
+		}
+		else if (keyboardIsPressingUp()) {
+			defaultWalkerType = "quick";
+		}
+		else if (keyboardIsPressingUp()) {
+			defaultWalkerType = "basic";
+		}
+		
 		if (countdownFired()) {
 			addWalker(defaultWalkerType);
 		}
 
 		// in-game
-
-		if (userWon()) {
-			enterWin();
-		}
+		checkGameWon();
 
 		if (mouseClicked()) {
-			int clickedRow = getClickedRow();
-			int clickedColumn = getClickedColumn();
-			if (userWon()) { // if user won, check for button clicks
-				if (winRestartButtonSelected()) { // did user click on the
-													// restart button?
-					enterGameplay();
-				} else if (winQuitButtonSelected()) { // or did user click on
-														// the quit button?
-					exitGame();
+			int clickedX = getClickedX();
+			int clickedY = getClickedY();
+			
+			if (aWizardIsSelected()) {
+				moveWizardTo(clickedX, clickedY);
+			}
+			else if (tileHasWizard(clickedX, clickedY)) {
+				if (wizardIsSelected(clickedX, clickedY)) {
+					unselectWizard();
 				}
-			} else {
-				// if a Tower is selected, can it be moved to this Tile?
-				if (aWizardIsSelected()) {
-					moveWizardTo(clickedColumn, clickedRow);
-				}
-				// otherwise, if there's a Tower on the tile, toggle selection
-				// of the tower
-				else if (tileHasWizard(clickedColumn, clickedRow)) {
-
-					if (wizardIsSelected(clickedColumn, clickedRow)) {
-						unselectWizard();
-					} else {
-						selectWizard(clickedColumn, clickedRow);
-					}
-				}
-				// otherwise, place a Tower
 				else {
-					// either speedy or medic
-					drawWizard(clickedColumn, clickedRow, defaultWizardType);
+					selectWizard(clickedX, clickedY);
 				}
 			}
-
+			else {
+				// either speedy or medic
+				drawWizard(clickedX, clickedY, defaultWizardType);
+			}
 		}
 
-		if (keyboardIsPressingLeft()) {
-			defaultWizardType = "medic";
-		} else if (keyboardIsPressingRight()) {
-			defaultWizardType = "speedy";
-		} else if (keyboardIsPressingUp()) {
-			defaultWalkerType = "quick";
-		} else if (keyboardIsPressingUp()) {
-			defaultWalkerType = "basic";
-		}
 
-		// heal walkers or make walkers faster
 		for (int i = 0; i < numOfWizards(); i++) {
 			if (wizardIsReady(i)) {
 				for (int j = 0; j < numOfWalkers(); j++) {
@@ -101,8 +109,12 @@ public class Lab11 extends HTLProceduralAPI {
 				}
 			}
 		}
-
-		setScore(getNumOfWalkersSaved() * getHealthSaved());
-
+		updateScore(getNumOfWalkersSaved() * getHealthSaved());
+	}
+	
+	public void checkGameWon() {
+		if( getScore() >= 500 ){
+			enterWin();
+		}
 	}
 }

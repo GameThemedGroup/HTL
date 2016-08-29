@@ -1,10 +1,22 @@
 package HTLProceduralAPI;
 
-
 /**
+ * @author Kunlakan (Jeen) Cherdchusilp
  * @author Tom Lai
- * @author Jeen Cherdchusilp
+ * 
+ * ----------------------------------------------------------------------------
+ * LAB 3 - If/Else: Draw Wizards with If/Else Statement
+ * 
+ * LEARNING OBJECTIVE:
+ * 		Student will be able to demonstrate an understanding of conditionals
+ * 
+ * FUNCTIONS TO USE:
+ * 		keyboardIsPressingRight()
+ * 		keyboardIsPressingLeft()
+ * 		keyboardIsPressingUp()
+ * 		keyboardIsPressingDown()
  */
+
 public class Lab3 extends HTLProceduralAPI
 {
 	public void updateGame()

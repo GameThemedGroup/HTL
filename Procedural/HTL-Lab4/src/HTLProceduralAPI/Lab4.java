@@ -1,9 +1,17 @@
 package HTLProceduralAPI;
 
 /**
+ * @author Kunlakan (Jeen) Cherdchusilp
  * @author Tom Lai
- * @author Jeen Cherdchusilp
+ * 
+ * ----------------------------------------------------------------------------
+ * LAB 4 - If/Else: Using Variable Declarations
+ * 
+ * LEARNING OBJECTIVE:
+ * 		Student will be able to demonstrate an understanding of conditionals
+ * 		and variable declarations	
  */
+
 public class Lab4 extends HTLProceduralAPI
 {
 	

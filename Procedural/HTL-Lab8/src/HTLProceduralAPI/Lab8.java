@@ -1,9 +1,18 @@
 package HTLProceduralAPI;
 
 /**
+ * @author Kunlakan (Jeen) Cherdchusilp
  * @author Tom Lai
- * @author Jeen Cherdchusilp
+ * 
+ * ----------------------------------------------------------------------------
+ * LAB 8 - While Loop: What Is While Loop?
+ * 
+ * LEARNING OBJECTIVE:
+ * 		Student will be able to demonstrate an understanding of the concept by
+ * 		drawing completed custom paths by using while loops, and the different
+ * 		and the similarity between for loop and while loop
  */
+
 public class Lab8 extends HTLProceduralAPI
 {	
 	public void buildGame()
@@ -13,14 +22,14 @@ public class Lab8 extends HTLProceduralAPI
 		 *      8| 
 		 *      7| 
 		 *      6|               
-		 * rows 5| X X X X X X X X X X X
+		 *   y  5| X X X X X X X X X X X
 		 *      4|                    
 		 *      3|                
 		 *      2|                
 		 *      1|                
 		 *      0|______________________
 		 *         0 1 2 3 4 5 6 7 8 9 ...
-		 *            columns
+		 *            		x
 		 */
 		
 		int currentNum = 0;
@@ -35,6 +44,7 @@ public class Lab8 extends HTLProceduralAPI
 
 		if (countdownFired()) {
 			addBasicWalker();
+			//addQuickWalker();
 		}
 	}
 }

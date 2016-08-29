@@ -1,36 +1,61 @@
 package HTLProceduralAPI;
 
 /**
+ * @author Kunlakan (Jeen) Cherdchusilp
  * @author Tom Lai
- * @author Jeen Cherdchusilp
+ * 
+ * ----------------------------------------------------------------------------
+ * LAB 5 - Nested If: Moving Wizards
+ * 
+ * LEARNING OBJECTIVE:
+ * 		Student will be able to demonstrate an understanding of nested if
+ * 		statement
+ * 
+ * FUNCTIONS TO USE:
+ * 		mouseClicked()
+ * 
+ * 		getClickedX()
+ * 		getClickedY()
+ * 
+ * 		aWizardIsSelected()
+ * 		tileHasWizard(int x, int y)
+ * 		wizardIsSelected(int x, int y)
+ * 		unselectWizard()
+ * 		selectWizard(int x, int y)
+ * 
+ *	 	moveWizardTo(int x, int y)
  */
+
 public class Lab5 extends HTLProceduralAPI
 {	
 	public void updateGame() {
-		// in-game
+		
+		// Check if the mouse is clicked any where in the game scene
 		if (mouseClicked()) {
-			int clickedRow = getClickedRow();
-			int clickedColumn = getClickedColumn();
+			// Get the position of the mouse clicked
+			int clickedX = getClickedX();
+			int clickedY = getClickedY();
 			
 			// if a Tower is selected, can it be moved to this Tile?
 			if (aWizardIsSelected()) {
-				moveWizardTo(clickedColumn, clickedRow);
+				moveWizardTo(clickedX, clickedY);
 			}
+			
 			// otherwise, if there's a Tower on the tile, toggle selection
 			// of the tower
-			else if (tileHasWizard(clickedColumn, clickedRow)) {
+			else if (tileHasWizard(clickedX, clickedY)) {
 
-				if (wizardIsSelected(clickedColumn, clickedRow)) {
+				if (wizardIsSelected(clickedX, clickedY)) {
 					unselectWizard();
 				} else {
-					selectWizard(clickedColumn, clickedRow);
+					selectWizard(clickedX, clickedY);
 				}
 			}
 			// otherwise, place a Tower
 			else {
 				// either speedy or medic, pick one
 				// drawMedicWizard(clickedColumn, clickedRow);
-				drawSpeedyWizard(clickedColumn, clickedRow);
+				drawSpeedyWizard(clickedX, clickedY);
 				
 			}
 
