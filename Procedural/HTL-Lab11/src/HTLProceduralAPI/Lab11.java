@@ -78,16 +78,17 @@ public class Lab11 extends HTLProceduralAPI {
 			int clickedX = getClickedX();
 			int clickedY = getClickedY();
 			
-			if (aWizardIsSelected()) {
-				moveWizardTo(clickedX, clickedY);
-			}
-			else if (tileHasWizard(clickedX, clickedY)) {
+			
+			if (tileHasWizard(clickedX, clickedY)) {
 				if (wizardIsSelected(clickedX, clickedY)) {
 					unselectWizard();
 				}
 				else {
 					selectWizard(clickedX, clickedY);
 				}
+			}
+			else if (aWizardIsSelected()) {
+				moveWizardTo(clickedX, clickedY);
 			}
 			else {
 				// either speedy or medic

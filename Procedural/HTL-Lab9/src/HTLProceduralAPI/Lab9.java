@@ -46,14 +46,8 @@ public class Lab9 extends HTLProceduralAPI
 		if (mouseClicked()) {
 			int clickedX = getClickedX();
 			int clickedY = getClickedY();
-			
-			// if a Tower is selected, can it be moved to this Tile?
-			if (aWizardIsSelected()) {
-				moveWizardTo(clickedX, clickedY);
-			}
-			// otherwise, if there's a Tower on the tile, toggle selection
-			// of the tower
-			else if (tileHasWizard(clickedX, clickedY)) {
+
+			if (tileHasWizard(clickedX, clickedY)) {
 
 				if (wizardIsSelected(clickedX, clickedY)) {
 					unselectWizard();
@@ -61,9 +55,12 @@ public class Lab9 extends HTLProceduralAPI
 					selectWizard(clickedX, clickedY);
 				}
 			}
-			// otherwise, place a Tower
+			
+			else if (aWizardIsSelected()) {
+				moveWizardTo(clickedX, clickedY);
+			}
+			
 			else {
-				// either speedy or medic, pick one
 				// drawMedicWizard(clickedColumn, clickedRow);
 				drawSpeedyWizard(clickedX, clickedY);
 				
